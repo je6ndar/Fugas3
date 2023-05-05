@@ -11,6 +11,7 @@ public class RbMovement : MonoBehaviour
     [SerializeField] private float jumpForce;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private Animator animator;
 
     private Rigidbody2D rb;
     private bool isFacingRight = true;
@@ -28,6 +29,15 @@ public class RbMovement : MonoBehaviour
         var horizontal = Input.GetAxis("Horizontal");
         var jumpDownBtn = Input.GetButtonDown("Jump");
         var jumpUpBtn = Input.GetButtonUp("Jump");
+
+        if(horizontal != 0)
+        {
+            animator.SetBool("move", true);
+        }
+        else
+        {
+            animator.SetBool("move", false);
+        }
 
         if (jumpDownBtn && IsGrounded())
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
