@@ -30,15 +30,13 @@ public class RbMovement : MonoBehaviour
         var jumpDownBtn = Input.GetButtonDown("Jump");
         var jumpUpBtn = Input.GetButtonUp("Jump");
 
-        if(horizontal != 0)
-        {
-            animator.SetBool("move", true);
-        }
-        else
-        {
-            animator.SetBool("move", false);
-        }
+        animator.SetBool("move", horizontal!=0);
 
+        if(jumpDownBtn&&IsGrounded())
+            animator.SetTrigger("jump");
+
+        animator.SetBool("fall", rb.velocity.y < 0 && IsGrounded() == false);
+        
         if (jumpDownBtn && IsGrounded())
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         if (jumpUpBtn && rb.velocity.y > 0)
