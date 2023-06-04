@@ -5,11 +5,12 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class AdvencedSceneManager : MonoBehaviour
+public class AdvancedSceneManager : MonoBehaviour
 {
-    public static AdvencedSceneManager Instance { get; private set; }
+    public static AdvancedSceneManager Instance { get; private set; }
 
     private const string MAIN_MENU_SCENE_KEY = "MainMenu";
+    private const string EXIT_MENU_SCENE_KEY = "ExitMenu";
     private string[] LEVELS_SCENE_KEYS = new string[] { "FirstLevel", "SecondLevel", "ThirdLevel" };
 
     private void Awake()
@@ -24,6 +25,15 @@ public class AdvencedSceneManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene(MAIN_MENU_SCENE_KEY);
+    }
+
+    public void LoadExitMenu()
+    {
+        SceneManager.LoadScene(EXIT_MENU_SCENE_KEY);
+    }
     public void LoadFirstLevel()
     {
         SceneManager.LoadScene(LEVELS_SCENE_KEYS[0]);

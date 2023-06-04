@@ -12,23 +12,39 @@ public class RbMovement : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Animator animator;
-
+    
     private Rigidbody2D rb;
     private bool isFacingRight = true;
     private float GROUND_CHECK_RADIUS = 0.2f;
+    private float horizontalVelocity = 0f;
+    private float maxDistance = 0.3f;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
     private bool IsGrounded()
-        => Physics2D.OverlapCircle(groundCheck.position, GROUND_CHECK_RADIUS, groundLayer);
+    {
+
+        if (Physics2D.Raycast(groundCheck.position, groundCheck.TransformDirection(Vector2.right), 0.3f, groundLayer) ||
+            Physics2D.Raycast(groundCheck.position, groundCheck.TransformDirection(Vector2.left), 0.5f, groundLayer) ||
+            Physics2D.OverlapCircle(groundCheck.position, GROUND_CHECK_RADIUS, groundLayer))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     private void Update()
     {
-        var horizontal = Input.GetAxis("Horizontal");
+        var horizontal = Input.GetAxisRaw("Horizontal");
         var jumpDownBtn = Input.GetButtonDown("Jump");
         var jumpUpBtn = Input.GetButtonUp("Jump");
+        
 
         animator.SetBool("move", horizontal!=0);
 
@@ -44,14 +60,34 @@ public class RbMovement : MonoBehaviour
 
         if (horizontal != 0f)
         {
-            rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+            if (IsGrounded())
+            {
+                rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+            }
+            else {
+                rb.velocity = new Vector2(horizontal * speed * 0.75f, rb.velocity.y);
+            }
         }
         else
         {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y);
+            if (IsGrounded())
+            {
+                rb.velocity = new Vector2(0, rb.velocity.y);
+            }
         }
         Flip(horizontal);
+        Debug.DrawRay(groundCheck.position, groundCheck.TransformDirection(Vector2.right) * maxDistance, Color.red);
+        Debug.DrawRay(groundCheck.position, groundCheck.TransformDirection(Vector2.left) * 0.5f, Color.red, 0.1f);
+        //if (Physics2D.Raycast(groundCheck.position, groundCheck.TransformDirection(Vector2.right), 0.3f, groundLayer) ||
+        //    Physics2D.Raycast(groundCheck.position, groundCheck.TransformDirection(Vector2.left), 0.5f, groundLayer))
+        //{
+        //    Debug.Log("HIT");
+
+        //}
+        if (IsGrounded()) Debug.Log("HIT");
     }
+
+
     private void Flip(float horizontal)
     {
         if(isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
