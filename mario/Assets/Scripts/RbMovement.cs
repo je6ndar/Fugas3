@@ -39,13 +39,9 @@ public class RbMovement : MonoBehaviour
         }
     }
 
-    private void Update()
+    public void Move(float horizontal, bool jumpDownBtn, bool jumpUpBtn)
     {
-        var horizontal = Input.GetAxisRaw("Horizontal");
-        var jumpDownBtn = Input.GetButtonDown("Jump");
-        var jumpUpBtn = Input.GetButtonUp("Jump");
-        
-
+              
         animator.SetBool("move", horizontal!=0);
 
         if(jumpDownBtn&&IsGrounded())
@@ -76,18 +72,16 @@ public class RbMovement : MonoBehaviour
             }
         }
         Flip(horizontal);
-        Debug.DrawRay(groundCheck.position, groundCheck.TransformDirection(Vector2.right) * maxDistance, Color.red);
-        Debug.DrawRay(groundCheck.position, groundCheck.TransformDirection(Vector2.left) * 0.5f, Color.red, 0.1f);
+        //Debug.DrawRay(groundCheck.position, groundCheck.TransformDirection(Vector2.right) * maxDistance, Color.red);
+        //Debug.DrawRay(groundCheck.position, groundCheck.TransformDirection(Vector2.left) * 0.5f, Color.red, 0.1f);
         //if (Physics2D.Raycast(groundCheck.position, groundCheck.TransformDirection(Vector2.right), 0.3f, groundLayer) ||
         //    Physics2D.Raycast(groundCheck.position, groundCheck.TransformDirection(Vector2.left), 0.5f, groundLayer))
         //{
         //    Debug.Log("HIT");
 
         //}
-        if (IsGrounded()) Debug.Log("HIT");
+        //if (IsGrounded()) Debug.Log("HIT");
     }
-
-
     private void Flip(float horizontal)
     {
         if(isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)

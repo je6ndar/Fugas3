@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    [SerializeField] private CharacterMovement movement;
-    void Update()
+    [SerializeField] private RbMovement movement;
+    [SerializeField] private UIExitMenu exitMenu;
+    void Update() 
     {
-        float horizontalAxis = Input.GetAxis("Horizontal");
-        float verticalAxis = Input.GetAxis("Vertical");
-        bool jump = Input.GetButtonDown("Jump");
-        movement.Move(horizontalAxis, verticalAxis, jump);
+        bool esc = Input.GetButtonDown("Cancel");
+        exitMenu.OpenCloseExitMenu(esc);
+        
+        var horizontal = Input.GetAxisRaw("Horizontal");
+        var jumpDownBtn = Input.GetButtonDown("Jump");
+        var jumpUpBtn = Input.GetButtonUp("Jump");
+        movement.Move(horizontal, jumpDownBtn, jumpUpBtn);
     }
 }

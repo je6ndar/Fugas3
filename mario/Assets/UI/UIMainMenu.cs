@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class UIMainMenu : MonoBehaviour
 {
-   public void NewGame()
+    [SerializeField] private GameObject settings;
+    public void NewGame()
     {
-
+        AdvancedSceneManager.Instance.LoadFirstLevel();
     }
 
     public void Continue()
     {
-
+        //
     }
 
     public void Settings()
     {
-
+        settings.SetActive(true);
+        gameObject.SetActive(false);
     }
     public void Exit()
     {
-
+        Application.Quit();
     }
 }

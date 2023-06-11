@@ -11,6 +11,7 @@ public class AdvancedSceneManager : MonoBehaviour
 
     private const string MAIN_MENU_SCENE_KEY = "MainMenu";
     private const string EXIT_MENU_SCENE_KEY = "ExitMenu";
+    private const string SETTINGS_SCENE_KEY = "Settings";
     private string[] LEVELS_SCENE_KEYS = new string[] { "FirstLevel", "SecondLevel", "ThirdLevel" };
 
     private void Awake()
@@ -37,6 +38,10 @@ public class AdvancedSceneManager : MonoBehaviour
     public void LoadFirstLevel()
     {
         SceneManager.LoadScene(LEVELS_SCENE_KEYS[0]);
+    }
+    public void LoadSettings()
+    {
+        SceneManager.LoadScene(SETTINGS_SCENE_KEY);
     }
 
     public void LoadNextLevel()
