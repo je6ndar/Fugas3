@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class UIMainMenu : MonoBehaviour
 {
-    [SerializeField] private GameObject settings;
+    [SerializeField] private GameObject settings;  
     public void NewGame()
     {
         AdvancedSceneManager.Instance.LoadFirstLevel();
@@ -12,7 +13,8 @@ public class UIMainMenu : MonoBehaviour
 
     public void Continue()
     {
-        //
+        DataPersistanceManager.Instance.LoadGame();
+        AdvancedSceneManager.Instance.LoadFirstLevel();
     }
 
     public void Settings()
@@ -24,4 +26,14 @@ public class UIMainMenu : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void EscButton(bool esc)
+    {
+        if (esc)
+        {
+            settings.SetActive(false);
+            gameObject.SetActive(true);
+        }
+    }
+
 }

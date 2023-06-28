@@ -37,11 +37,18 @@ public class AdvancedSceneManager : MonoBehaviour
     }
     public void LoadFirstLevel()
     {
+        
         SceneManager.LoadScene(LEVELS_SCENE_KEYS[0]);
     }
     public void LoadSettings()
     {
         SceneManager.LoadScene(SETTINGS_SCENE_KEY);
+    }
+
+    public void RestartCurrentLevel()
+    {
+        StartCoroutine(WaitForRestart());
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void LoadNextLevel()
@@ -54,4 +61,10 @@ public class AdvancedSceneManager : MonoBehaviour
         }
         SceneManager.LoadScene(LEVELS_SCENE_KEYS[currentSceneIndex + 1]);
     }
+    private IEnumerator WaitForRestart()
+    {
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 }
+
